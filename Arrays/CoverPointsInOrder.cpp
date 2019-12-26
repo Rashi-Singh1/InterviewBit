@@ -3,6 +3,30 @@
 #include<vector> 
 using namespace std;
 
+//
+
+int Solution::coverPoints(vector<int> &X, vector<int> &Y) {
+    int startX = X[0];
+    int startY = Y[0];
+    int count = 0;
+    for(int i = 1 ; i < X.size() ; i++)
+    {
+        //translocated the next stop s.t. (startX,startY) can be treated as (0,0)
+        //took the abs, bcs from origin does not matter in which quadrant
+        int tempX = abs(X[i] - startX);
+        int tempY = abs(Y[i] - startY);
+
+        //from (0,0), the number to steps to go to (a,b) is max(a,b), consider ex of (8,5) from (0,0), go to 5,5 then 8,5
+        count+= max(tempX,tempY);
+        startX = X[i];
+        startY = Y[i];
+    }
+    return count;
+}
+
+
+//
+
 int coverPoints(vector<int> &A, vector<int> &B) {
     int startX = A[0];
     int startY = B[0];

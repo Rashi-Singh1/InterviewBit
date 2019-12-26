@@ -1,3 +1,36 @@
+//For placement - 
+
+vector<int> Solution::maxset(vector<int> &A) {
+    int start = 0;
+    long long int sum = 0;
+    long long int ans = A[0];
+    int fStart = 0;
+    int fEnd = 0;
+    vector<int> sol;
+    bool allNeg = true;
+    for(int i = 0;i<A.size();i++) if(A[i] >=0 ) {allNeg = false; break;}
+    if(allNeg) return sol;
+    for(int end = 0;end<A.size();end++)
+    {
+        if(A[end] >= 0){
+            sum+=(A[end]*1ll);
+        }else {
+            sum = 0;
+            start = end+1;
+        }
+        if(sum > ans || (sum == ans && (end - start > fEnd-fStart)))
+        {
+            ans = sum;
+            fStart = start;
+            fEnd = end;
+        }
+    }
+    for(int i = fStart;i <= fEnd;i++) sol.push_back(A[i]);
+    return sol;
+}
+
+//
+
 
 vector<int> Solution::maxset(vector<int> &A) {
     long long localMax = 0, globalMax = 0;

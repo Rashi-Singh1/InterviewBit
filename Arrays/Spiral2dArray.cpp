@@ -1,7 +1,60 @@
 #include <iostream>
 #include <vector>
 using namespace std;
+//For placements - 
 
+vector<int> Solution::spiralOrder(const vector<vector<int> > &A) {
+    int x = 0;
+    int y = 0;
+    int k = 0;
+    
+    vector<int> ans;
+    
+    int row = A.size();
+    if(row == 0) return ans;
+    
+    int col = A[0].size();
+    if(col == 0) return ans;
+    
+    int xLimit = col;
+    int yLimit = row;
+    while(k < row*col)
+    {
+        while(x < xLimit && k < row*col) {
+            ans.push_back(A[y][x++]);
+            k++;
+        }
+        x--;
+        y++;
+        while(y < yLimit && k < row*col)
+        {
+            ans.push_back(A[y++][x]);
+            k++;
+        }
+        y--;
+        x--;
+        yLimit--;
+        while(x >= col-xLimit && k < row*col)
+        {
+            ans.push_back(A[y][x--]);
+            k++;
+        }
+        x++;
+        y--;
+        xLimit--;
+        while(y >= row-yLimit && k < row*col)
+        {
+            ans.push_back(A[y--][x]);
+            k++;
+        }
+        x++;
+        y++;
+    }
+    return ans;
+}
+
+
+//
 vector<int> spiralOrder(const vector<vector<int> > &A) {
     int row = A.size();
     int col = A[0].size();

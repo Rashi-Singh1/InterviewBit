@@ -1,3 +1,55 @@
+//For placement - 
+
+vector<vector<int> > Solution::generateMatrix(int A) {
+    if(A == 0) return NULL;
+    int x = 0;
+    int y = 0;
+    int k = 0;
+    
+    vector<int> temp(A,0);
+    vector<vector<int>> sol(A,temp);
+    
+    int row = A;
+    int col = A;
+    
+    int xLimit = col;
+    int yLimit = row;
+    while(k < row*col)
+    {
+        while(x < xLimit && k < row*col) {
+            sol[y][x++] = k+1;
+            k++;
+        }
+        x--;
+        y++;
+        while(y < yLimit && k < row*col)
+        {
+            sol[y++][x] = k+1;
+            k++;
+        }
+        y--;
+        x--;
+        yLimit--;
+        while(x >= col-xLimit && k < row*col)
+        {
+            sol[y][x--] = k+1;
+            k++;
+        }
+        x++;
+        y--;
+        xLimit--;
+        while(y >= row-yLimit && k < row*col)
+        {
+            sol[y--][x] = k+1;
+            k++;
+        }
+        x++;
+        y++;
+    }
+    return sol;
+}
+
+//
 
 vector<vector<int> > generateMatrix(int key) {
     vector<vector<int> > A;

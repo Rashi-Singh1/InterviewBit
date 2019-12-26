@@ -1,3 +1,27 @@
+//For placement - 
+
+vector<int> Solution::plusOne(vector<int> &A) {
+   reverse(A.begin(),A.end());
+   int i = 0;
+   while(A[i] == 9) A[i++] = 0;
+   if(i < A.size())
+   {
+       A[i]++;
+   }
+   else{
+       A.push_back(1);
+   }
+   for(int i = A.size()-1;i>=0;i--)
+   {
+       if(A[i] == 0) A.erase(A.begin() + i);
+   }
+   reverse(A.begin(),A.end());
+   return A;
+    
+}
+
+//
+
 vector<int> Solution::plusOne(vector<int> &A) {
     int index = A.size()-1;
     int flag = 0;

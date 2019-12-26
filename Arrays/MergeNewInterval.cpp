@@ -7,6 +7,40 @@
  *     Interval(int s, int e) : start(s), end(e) {}
  * };
  */
+
+
+//For placement - 
+
+bool comp(Interval one, Interval two) {
+    if(one.start < two.start) return true;
+    else if(one.start == two.start && one.end < two.end) return true;
+    else return false;
+}
+
+vector<Interval> Solution::insert(vector<Interval> &A, Interval newInterval) {
+    A.push_back(newInterval);
+    vector<Interval> ans;
+    
+    sort(A.begin(),A.end(),comp);
+    
+    Interval interval;
+    interval.start = A[0].start;
+    interval.end = A[0].end;
+    
+    for(int i = 1;i<A.size();i++)
+    {
+        if(A[i].start <= interval.end) interval.end = max(interval.end,A[i].end);
+        else{
+            ans.push_back(interval);
+            interval.start = A[i].start;
+            interval.end = A[i].end;
+        }
+    }
+    ans.push_back(interval);
+    return ans;
+}
+
+//
     
 bool compareInterval(Interval A, Interval B)
 {
