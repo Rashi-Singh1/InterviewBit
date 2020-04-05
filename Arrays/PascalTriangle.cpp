@@ -1,3 +1,51 @@
+//Forplacement - 
+vector<vector<int> > Solution::solve(int A) {
+    vector<vector<int> >ans; 
+    if(A == 0) return ans;
+    vector<int> temp = {1};
+    ans.push_back(temp);
+    if(A == 1) return ans;
+    temp.push_back(1);
+    ans.push_back(temp);
+    if(A == 2) return ans;
+    temp.clear();
+    temp.push_back(1);
+    for(int i = 2; i < A; i++){
+        for(int j = 0; j < ans[i-1].size() - 1;j++){
+            temp.push_back(ans[i-1][j] + ans[i-1][j+1]);
+        } 
+        temp.push_back(1);
+        ans.push_back(temp);
+        temp.clear();
+        temp.push_back(1);
+    }
+    return ans;
+}
+
+vector<vector<int> > Solution::solve(int A) {
+    vector<vector<int>> ans;
+    if(A == 0) return ans;
+    
+    ans.push_back(vector<int>(1,1));
+    if(A == 1) return ans;
+    
+    ans.push_back(vector<int>(2,1));
+    if(A == 2) return ans;
+    
+    for(int i = 2;i<A;i++)
+    {
+        vector<int> temp;
+        temp.push_back(1);
+        for(int j = 0;j<ans[i-1].size()-1;j++)
+        {
+            temp.push_back(ans[i-1][j] + ans[i-1][j+1]);
+        }
+        temp.push_back(1);
+        ans.push_back(temp);
+    }
+    return ans;
+}
+
 vector<vector<int> > Solution::solve(int key) {
     vector<vector<int> >answer;
     vector <int> temp = {1};

@@ -1,3 +1,29 @@
+//For placement - 
+vector<vector<int> > Solution::diagonal(vector<vector<int> > &A) {
+    if(A.size() == 0) return A;
+    vector<vector<int> > ans(2*(A.size()) - 1);
+    for(int i = 0 ; i < A.size() ; i++){
+        for(int j = 0; j < A[0].size() ; j++){
+            ans[i+j].push_back(A[i][j]);
+        }
+    }
+    return ans;
+}
+
+vector<vector<int> > Solution::diagonal(vector<vector<int> > &A) {
+    vector<vector<int> > ans( (2*A.size())-1);
+    for(int i = 0;i<A.size();i++)
+    {
+        for(int j = 0;j < A[i].size();j++)
+        {
+            ans[i+j].push_back(A[i][j]);
+        }
+    }
+    return ans;
+}
+
+//
+
 
 /*editorial : very good and easy solution*/
 

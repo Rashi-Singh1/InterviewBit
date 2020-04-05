@@ -1,4 +1,30 @@
 //For placement - 
+vector<vector<int> > Solution::generateMatrix(int A) {
+    vector<vector<int > > ans(A,vector<int> (A,0));
+    int x = 0, y = 0, xleft = 0, yleft = 0;
+    int k = 1;
+    while(k <= A*A){
+        while(k <= A*A && x < A - xleft){
+            ans[y][x++] = k++;
+        }
+        x--; y++;
+        while(k <= A*A && y < A - yleft){
+            ans[y++][x] = k++;
+        }
+        y--; x--;
+        yleft++;
+        while(k <= A*A && x >= xleft){
+            ans[y][x--] = k++;
+        }
+        x++; y--;
+        xleft++;
+        while(k <= A*A && y >= yleft){
+            ans[y--][x] = k++;
+        }
+        y++; x++;
+    }
+    return ans;
+}
 
 vector<vector<int> > Solution::generateMatrix(int A) {
     if(A == 0) return NULL;

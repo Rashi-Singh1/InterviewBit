@@ -10,6 +10,48 @@
 
 
 //For placement - 
+/**
+ * Definition for an interval.
+ * struct Interval {
+ *     int start;
+ *     int end;
+ *     Interval() : start(0), end(0) {}
+ *     Interval(int s, int e) : start(s), end(e) {}
+ * };
+ */
+//O(n) solution without sorting
+vector<Interval> Solution::insert(vector<Interval> &A, Interval ni) {
+    vector<Interval> ans;
+    if(A.size() == 0) {
+        ans.push_back(ni);
+        return ans;
+    }
+    if(ni.end < A[0].start) ans.push_back(ni);
+    Interval temp = A[0];
+    if(ni.end >= temp.start && ni.start <= temp.end){
+        temp.start = min(temp.start,ni.start);
+        temp.end = max(temp.end,ni.end);
+    }
+    for(int i = 0 ; i < A.size() ; i++){
+        if(A[i].start <= temp.end) temp.end = max(temp.end,A[i].end);
+        if(ni.start >= temp.start && ni.start <= temp.end){
+            temp.end = max(temp.end,ni.end);
+        }
+        if(A[i].start <= temp.end) temp.end = max(temp.end,A[i].end);
+        else{
+            ans.push_back(temp);
+            if(ni.start > temp.end && ni.start < A[i].start) {
+                temp = ni;
+                if(A[i].start <= temp.end) temp.end = max(ni.end,A[i].end);
+            }
+            else temp = A[i];
+        }
+    }
+    ans.push_back(temp);
+    if(ni.start > temp.end) ans.push_back(ni);
+    if(A[A.size()-1].start > temp.end) ans.push_back(A[A.size()-1]);
+    return ans;
+}
 
 bool comp(Interval one, Interval two) {
     if(one.start < two.start) return true;

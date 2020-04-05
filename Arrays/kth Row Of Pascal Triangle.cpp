@@ -1,4 +1,14 @@
 /*Editorial : very good solution*/
+vector<int> Solution::getRow(int A) {
+    vector<int> ans = {1};
+    int temp = 1;
+    for(int i = 1; i <= A ; i++){
+        temp*=(A-i+1);
+        temp/=i;
+        ans.push_back(temp);
+    }
+    return ans;
+}
 
 vector<int> Solution::getRow(int A) {
     vector<int> ans;
@@ -15,6 +25,7 @@ vector<int> Solution::getRow(int A) {
 
 
 //after Reset
+//same for placement - 
 vector<int> Solution::getRow(int A) {
     vector<int> ans;
     ans.push_back(1);

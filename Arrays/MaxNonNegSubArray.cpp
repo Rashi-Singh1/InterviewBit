@@ -1,4 +1,35 @@
 //For placement - 
+void update(int* s, int* e, int end, int start, long long int*sum, long long int cur){
+    *s = start;
+    *e = end;
+    *sum = cur;
+}
+
+vector<int> Solution::maxset(vector<int> &A) {
+    vector<int> ans;
+    bool allneg = true;
+    for(int i = 0; i < A.size(); i++){
+        if(A[i] >=0 ) allneg = false;
+    }
+    if(allneg) return ans;
+    int s, e, start = 0, end = 0;
+    long long int sum = INT_MIN, cur = 0;
+    for(end = 0; end < A.size(); end++){
+        if(A[end] < 0){
+            if(cur > sum || (sum == cur && (end-start - 1> e-s))) update(&s, &e, end-1,start,&sum,cur);
+            start = end + 1;
+            cur = 0;
+        }
+        else{
+            cur+=(long long int)A[end];
+            if(cur > sum || (sum == cur && (end-start> e-s))) update(&s, &e, end,start,&sum,cur);
+        }
+    }
+    for(int i = s;i <=e; i++){
+        ans.push_back(A[i]);
+    }
+    return ans;
+}
 
 vector<int> Solution::maxset(vector<int> &A) {
     int start = 0;

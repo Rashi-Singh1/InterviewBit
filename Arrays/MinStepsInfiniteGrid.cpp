@@ -12,6 +12,7 @@ int solve(vector<int>&A, vector<int> &B)
 }
 
 /*
+	here X and Y are after shifting origin to 0, hence the subtraction
 	While X and Y are positive, you will move along the diagonal and X and Y would both reduce by 1. 
 	When one of them becomes 0, you would move so that in each step the remaining number reduces by 1.
 
