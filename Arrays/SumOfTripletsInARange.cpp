@@ -10,64 +10,31 @@
     do not forget to check the sum once again affter the loop finishes
 */
 
+//O(n) time and O(1) space sol
 int Solution::solve(vector<string> &A) {
-    // if(A.size()<=2) return 0;
-    // double a,b,c;
-    // string s1 = A[0],s2 = A[1],s3 = A[2];
+    if(A.size() < 3) return 0;
+    else{
+        vector<float> ar = {stof(A[0]), stof(A[1]), stof(A[2])};
+        sort(ar.begin(), ar.end());
+        for(int i = 3; i < A.size() ; i++){
+            double sum = (double)ar[0] + (double)ar[1] + (double)ar[2];
+            if(1.000000 < sum && sum < 2.000000) return 1;
+            else if(sum > 2.000000) {
+                ar[2] = min(stof(A[i]), ar[2]);
+                sort(ar.begin(), ar.end());
+            } 
+            else{
+                ar[0] = max(ar[0], stof(A[i]));
+                sort(ar.begin(), ar.end());
+            }
+        }
+        double sum = (double)ar[0] + (double)ar[1] + (double)ar[2];
+        if(1.000000 < sum && sum < 2.000000) return 1;
+    }
+    return 0;
+}
 
-    // // object from the class stringstream 
-    // stringstream geek1(s1); 
-    // geek1 >> a;
-    // stringstream geek2(s2); 
-    // geek2 >> b;
-    // stringstream geek3(s3); 
-    // geek3 >> c;
-    // if(a+b+c <2 && a+b+c >1) return 1;
-    // for(int i = 3;i<A.size();i++)
-    // {
-    //     stringstream geek(A[i]);
-    //     double temp;
-    //     geek>>temp;
-    //     if(a+b+c > 2) {
-    //         if(a>b)
-    //         {
-    //             if(a > c)
-    //             {
-    //                 if(temp < a) geek>>a;
-    //             }else{
-    //                 if(temp < c) geek>>c;
-    //             }
-    //         }else{
-    //             if(b > c)
-    //             {
-    //                 if(temp < b) geek>>b;
-    //             }else{
-    //                 if(temp < c) geek>>c;
-    //             }
-    //         }
-    //     }else if(a+b+c < 1)
-    //     {
-    //          if(a<b)
-    //         {
-    //             if(a < c)
-    //             {
-    //                 if(temp > a) geek>>a;
-    //             }else{
-    //                 if(temp > c) geek>>c;
-    //             }
-    //         }else{
-    //             if(b < c)
-    //             {
-    //                 if(temp > b) geek>>b;
-    //             }else{
-    //                 if(temp > c) geek>>c;
-    //             }
-    //         }
-    //     }else{
-    //         return 1;
-    //     }
-    // }
-    // return 0;
+int Solution::solve(vector<string> &A) {
     if(A.size()<=2) return 0;
     double a,b,c;
     string s1 = A[0],s2 = A[1],s3 = A[2];

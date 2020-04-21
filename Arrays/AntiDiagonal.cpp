@@ -24,7 +24,6 @@ vector<vector<int> > Solution::diagonal(vector<vector<int> > &A) {
 
 //
 
-
 /*editorial : very good and easy solution*/
 
 vector<vector<int> > Solution::diagonal(vector<vector<int> > &A) {

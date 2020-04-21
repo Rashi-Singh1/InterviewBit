@@ -1,3 +1,26 @@
+//placement prep
+void Solution::rotate(vector<vector<int> > &A) {
+    int row = A.size();
+    if(row == 0) return;
+    int col = A[0].size();
+    if(col == 0) return;
+    for(int i = 0 ; i < row/2; i++){
+        for(int j = 0 ; j < col; j++){
+            int temp = A[i][j];
+            A[i][j] = A[row-1-i][j];
+            A[row-1-i][j] = temp;
+        }
+    }
+    for(int i = 0 ; i < row; i++){
+        for(int j = 0 ; j < col; j++){
+            int temp = A[i][j];
+            A[i][j] = A[j][i];
+            A[j][i] = temp;
+        }
+    }
+}
+
+
 class Solution {
 public:
      void rotate(vector<vector<int> > &matrix) {
@@ -14,3 +37,4 @@ public:
         }
     }
 };
+
