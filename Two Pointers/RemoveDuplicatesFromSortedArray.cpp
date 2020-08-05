@@ -1,4 +1,26 @@
 int Solution::removeDuplicates(vector<int> &A) {
+    if(A.size() < 2) return A.size();
+    int cur = 0;
+    int next = 1;
+    bool repeat = false;
+    for(;next < A.size(); next++){
+        if(A[cur] == A[next]){
+            if(repeat == false) {
+                repeat = true;
+            }
+        }
+        else{
+            cur++;
+            A[cur] = A[next];
+            repeat = false;
+        }
+    }
+    A.resize(distance(A.begin(), A.begin() + cur+1));
+    return cur+1;
+}
+
+
+int Solution::removeDuplicates(vector<int> &A) {
     int cur = -1;
     bool used = false;
     int count = 0;

@@ -1,4 +1,20 @@
 int Solution::sqrt(int A) {
+    if(A < 1) return 0;
+    if(A < 4) return 1;
+    long long int start = 1;
+    long long int end = A;
+    long long int mid = (start + end)/2;
+    while(start <= end){
+        mid = (start +  end)/2;
+        if(mid * mid == A) return mid;
+        else if(mid*mid > A) end = mid - 1;
+        else start = mid + 1;
+    }
+    return mid;
+}
+
+
+int Solution::sqrt(int A) {
     long int start = 0;
     long int end = A;
     while(start<=end)

@@ -1,4 +1,23 @@
 //For placements - 
+vector<int> Solution::nextPermutation(vector<int> &A) {
+    int n = A.size();
+    if(n < 2) return A;
+    for(int i = n -1 ; i > 0; i--){
+        if(A[i] > A[i-1]){
+            int min = i;
+            for(int j = i; j < n; j++){
+                if(A[j] > A[i-1] && A[min] > A[j]) min = j;
+            }
+            int t = A[min];
+            A[min] = A[i-1];
+            A[i-1] = t;
+            reverse(A.begin()+i,A.end());
+            return A;
+        }
+    }
+    reverse(A.begin(),A.end());
+    return A;
+}
 
 vector<int> Solution::nextPermutation(vector<int> &A) {
     for(int i = A.size()-1;i>0;i--)

@@ -1,3 +1,28 @@
+//O(nLogn) time and O(n) space
+int Solution::maximumGap(const vector<int> &A) {
+    int size = A.size();
+    vector<pair<int,int> > B;
+    for(int i = 0 ; i < size ; i++){
+        B.push_back(make_pair(A[i],i));
+    }
+    sort(B.begin(),B.end(),[](pair<int,int>& A, pair<int,int>& B){
+        if(A.first == B.first){
+            return A.second <= B.second;
+        }
+        else return A.first < B.first; 
+    });
+    vector<int> Max(size, INT_MIN);
+    for(int i = size - 1 ; i >= 0; i--){
+        Max[i] = B[i].second;
+        if(i < size - 1) Max[i] = max(Max[i+1],Max[i]);
+    }
+    int ans = -1;
+    for(int i = 0 ; i < size; i++){
+        ans = max(ans, Max[i] - B[i].second);
+    }
+    return ans;
+}
+
 int Solution::maximumGap(const vector<int> &A) {
     if(A.size() < 2) return A.size()-1;
     int ans = 0;

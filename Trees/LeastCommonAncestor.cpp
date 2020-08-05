@@ -7,6 +7,33 @@
  *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
  * };
  */
+ 
+void solve(TreeNode* A, vector<int>& b, int B){
+    if(A == NULL) return;
+    b.push_back(A->val);
+    if(A->val == B) return;
+    solve(A->left, b,B);
+    if(b[b.size()-1] == B) return;
+    solve(A->right,b,B);
+    if(b[b.size()-1] == B) return;
+    b.pop_back();
+
+} 
+ 
+int Solution::lca(TreeNode* A, int B, int C) {
+    vector<int> b;
+    vector<int> c;
+    if(A == NULL) return -1;
+    solve(A,b,B);
+    solve(A,c,C);
+    int ans = -1;
+    for(int i = 0; i < min(b.size(), c.size()); i++){
+        if(b[i] == c[i]) ans = b[i];
+    }
+    return ans;
+}
+
+//
 void solve(TreeNode* root, vector<TreeNode* >& sta, int B,bool* flag)
 {
     if(root == NULL || *flag == true) return;
