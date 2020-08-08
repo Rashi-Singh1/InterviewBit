@@ -1,35 +1,15 @@
 int Solution::removeElement(vector<int> &A, int B) {
-    int cur = -1;
-    bool used = false;
-    int count = 0;
-    for(int i = 0;i<A.size();i++)
-    {
-        if(A[i] == B)
-        {
-            count++;
-        }
-        if(A[i] == B && used == false)
-        {
-            cur = i;
-            used = true;
-        }
-        else if(A[i]!=B){
-            if(cur == -1)
-            {
-                continue;
-            }else{
-                A[cur] = A[i];
-                cur++;
-            }
+    int start = 0;
+    for(int i = 0 ; i < A.size(); i++){
+        if(A[i] == B) continue;
+        else{
+            int t = A[start];
+            A[start++] = A[i];
+            A[i] = t;
         }
     }
-    //use erase from behind to get best case scenario
-    int ans = A.size()-count;
-    for(int i = 0;i<count;i++)
-    {
-        if(A.size()-1 >=0) A.erase(A.begin()+A.size()-1);
-    }
-    return ans;
+    A.erase(A.begin()+start, A.end());
+    return start;
 }
 
 //after reset

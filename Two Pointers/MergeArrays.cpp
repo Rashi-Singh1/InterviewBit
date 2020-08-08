@@ -1,3 +1,20 @@
+//usig buffer bcs does not change space complexity (unless, we remove elements from B)
+void Solution::merge(vector<int> &A, vector<int> &B) {
+    int as = 0, bs = 0;
+    vector<int> ans;
+    while(as < A.size() && bs < B.size()){
+        if(A[as] <= B[bs]) ans.push_back(A[as++]);
+        else ans.push_back(B[bs++]);
+    }
+    while(as < A.size()) ans.push_back(A[as++]);
+    while(bs < B.size()) ans.push_back(B[bs++]);
+    int asize = A.size();
+    for(int i = 0 ; i < ans.size(); i++){
+        if(i < asize) A[i] = ans[i];
+        else A.push_back(ans[i]);
+    }
+}
+
 int floorSearch(vector<int> &A, int start, int end, int x)
 {
     while(start <= end)

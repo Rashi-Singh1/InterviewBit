@@ -1,3 +1,19 @@
+vector<int> Solution::intersect(const vector<int> &A, const vector<int> &B) {
+    int as = 0, bs = 0;
+    vector<int> sol;
+    while(as < A.size() && bs < B.size()){
+        if(A[as] < B[bs]) as++;
+        else if(A[as] > B[bs]) bs++;
+        else {
+            sol.push_back(A[as]);
+            as++;
+            bs++;
+        }
+    }
+    return sol;
+}
+
+
 //after reset
 vector<int> Solution::intersect(const vector<int> &A, const vector<int> &B) {
     int i = 0;

@@ -1,3 +1,16 @@
+typedef long long int ll;
+int Solution::diffPossible(vector<int> &A, int B) {
+    if(A.size() < 2) return 0;
+    int start = 0, end = 1;
+    while(start <= end && end < A.size()){
+        ll diff = A[end]-A[start];
+        if(diff == (ll)B && start != end) return 1;
+        else if(diff > (ll)B) start++;
+        else end++;
+    }
+    return 0;
+}
+
 int Solution::diffPossible(vector<int> &A, int B) {
     int i = 0;
     int j = 0;
