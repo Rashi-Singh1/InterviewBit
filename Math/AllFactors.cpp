@@ -1,3 +1,18 @@
+//O(sqrt(A)) time and O(1) space (not considering buffer to return answer)
+vector<int> Solution::allFactors(int A) {
+    vector<int> sol;
+    for(int i = 1; i <= sqrt(A); i++){
+        if(A%i == 0) sol.push_back(i);
+    }
+    int size = sol.size();
+    if(A > 0 && sol[size-1]*sol[size-1] == A) size--;
+    for(int i = size-1; i >= 0; i--){
+        sol.push_back(A/sol[i]);
+    }
+    return sol;
+}
+
+
 //This is not exactly O(sqrt(n)), bcs of sorting, to get rid of that, we can use extra space of O(no of factors/2)
 vector<int> Solution::allFactors(int A) {
     if(A == 0)

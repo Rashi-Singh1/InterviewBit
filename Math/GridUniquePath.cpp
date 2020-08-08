@@ -1,37 +1,32 @@
-/*My solution*/
-int dpSol(int A, int B) {
-    int array[A][B];
-    for(int i = 0;i<A;i++)
-    {
-        array[i][0] = 1;
+//O(B) time and O(1) space
+int Solution::uniquePaths(int A, int B) {
+    long long int sol = 1;
+    A--; B--;                                       //bcs the number of right steps(say) is 1 less than no of horizontal cells
+    for(int i = 1; i <= B; i++){
+        sol*=(i+A);
+        sol/=i;
     }
-    for(int i = 0;i<B;i++)
-    {
-        array[0][i] = 1;
-    }
-    array[0][0] = 1;
-    for(int i = 0;i<A;i++)
-    {
-        for(int j = 0;j<B;j++)
-        {
-            if(i==0 || j==0)
-            {
-                //
-            }
-            else{
-                array[i][j] = -1;
-            }
-        }
-    }
-    for(int i = 1;i<A;i++)
-    {
-        for(int j = 1;j<B;j++)
-        {
-            array[i][j] = array[i-1][j] + array[i][j-1];
-        }
-    }
-    return array[A-1][B-1];
+    return sol;
 }
+
+
+//O(B) space O(A*B) time
+int Solution::uniquePaths(int A, int B) {
+    vector<int> temp(B,1);
+    int prev = 1;
+    int ans = 1;
+    for(int i = 1; i < A; i++){
+        prev = 1;
+        for(int j = 1; j < B; j++){
+            int t = temp[j];
+            temp[j] = prev + t;
+            prev = temp[j];
+        }
+    }
+    if(B > 1) ans = temp[B-1];
+    return ans;
+}
+
 
 //After reset
 int Solution::uniquePaths(int A, int B) {

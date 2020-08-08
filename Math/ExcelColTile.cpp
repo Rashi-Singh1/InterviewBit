@@ -1,3 +1,19 @@
+//my solution - worked
+string Solution::convertToTitle(int A) {
+    string ans;
+    while(A > 0){
+        if(A%26 == 0){
+            ans = 'Z' + ans;
+            A-=26;
+        }else{
+            ans = (char)('A' + (A%26 - 1)) + ans;
+            A-=A%26;
+        }
+        A/=26;
+    }
+    return ans;
+}
+
 //after reset
 string Solution::convertToTitle(int a) {
     if(a <= 0)

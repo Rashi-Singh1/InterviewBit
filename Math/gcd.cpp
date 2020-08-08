@@ -1,3 +1,10 @@
+int Solution::gcd(int A, int B) {
+    int l = min(A,B), m = max(A,B);
+    A = m; B = l;                       //make A as max value of A,B and vice-versa
+    if(B == 0) return A;
+    return gcd(B,A%B);
+}
+
 //O(log(A+B)) roughly
 //Based on Euclidean algo division vali
 int euclideanAlgo(int A, int B)

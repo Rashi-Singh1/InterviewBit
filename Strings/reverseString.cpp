@@ -1,39 +1,21 @@
-string sol(string &A)
-{
-	string delim = " ";
-	string ans;
-	string token;
-	size_t pos;
-	while((pos = A.find(delim)!=std::string::npos))
-	{
-		if(!(token == " " || token.size() == 0))
-			ans = token + " " + ans;
-		A.erase(0,pos+delim.length());
-	}
-	A = A + " " + ans;
-	int k = 0;
-	while(k<A.size())
-	{
-		if(A[k] == ' ')
-		{
-			k++;
-		}
-		else{
-			break;
-		}
-	}
-	A = A.substr(k);
-	k = A.size();
-	while(k>0)
-	{
-		if(A[k-1] == ' ')
-		{
-			k--;
-		}else{
-			break;
-		}
-	}
-	A = A.substr(0,k);
+string Solution::solve(string A) {
+    int start = 0;
+    while(start < A.size()){
+        if(A[start] == ' ') start++;
+        else break;
+    }
+    
+    string temp = "";
+    string ans;
+    for(int i = start; i < A.size(); i++){
+        if(A[i] == ' '){
+            if(temp != "") ans = temp + " " + ans;
+            temp = "";
+        }else temp.push_back(A[i]);
+    }
+    if(temp!="") ans = temp + " " + ans;
+    while(ans.size() > 0 && ans[ans.size()-1] == ' ') ans.pop_back();
+    return ans;
 }
 
 //after reset

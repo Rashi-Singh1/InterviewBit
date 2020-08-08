@@ -1,11 +1,10 @@
 void Solution::arrange(vector<int> &A) {
-    for(int i = 0;i<A.size();i++)
-    {
-        A[i] = A[i] + ((A[A[i]]%A.size())*A.size());			//dont forget mod here bcs kuch values already changed hongi
+    int n = A.size();
+    if(n == 0) return;
+    for(int i = 0 ; i < n; i++){
+        A[i] = A[i]%n + (A[A[i]]%n)*n;
     }
-    for(int i = 0;i<A.size();i++)
-    {
-        A[i]/=A.size();
+    for(int i = 0 ; i < n ; i++){
+        A[i]/=n;
     }
-    
 }
