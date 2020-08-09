@@ -1,3 +1,16 @@
+string Solution::intToRoman(int A) {
+    string ans;
+    vector<pair<int,string> > sym = {{1,"I"},{4,"IV"},{5,"V"},{9,"IX"},{10,"X"},{40,"XL"},{50,"L"},{90,"XC"},{100,"C"},{400,"CD"},{500,"D"},{900,"CM"},{1000,"M"}};
+    for(int i = sym.size()-1; i>=0; i--){
+        int count = A/(sym[i].first);
+        for(int j = 1; j<= count; j++){
+            ans+=sym[i].second;
+            A-=sym[i].first;
+        }
+    }
+    return ans;
+}
+
 int floorSearch(vector<int> &array, int start, int end , int x)
 {
    while(start <= end )

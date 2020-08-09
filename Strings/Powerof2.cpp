@@ -1,80 +1,34 @@
-//partial score, based on time complexity, idk what to do better
-string divide(string A)
-{
-    string ans;
-    int carry = 0;
-    int j = 0;
-    if(A.size() != 1)
-    {
-        string temp = A.substr(0,2);
-        int num = stoi(temp);
-        if(num < 20){
-            carry = num-(((int)(num/2))*2);
-            ans = to_string((int)(num/2));
-            j = 2;
+//way 1: normal division
+int divide(string A){
+    if(A.size() == 0) return 0;
+    if(A == "0" || A == "1") return 1;
+    string q; int temp = 0;
+    bool startZero = true;
+    for(int i = 0 ; i < A.size(); i++){
+        temp = temp*10 + (int)(A[i]-'0');
+        if(temp/2 != 0 || (temp/2 == 0 && !startZero)) {
+            startZero = false;
+            q.push_back((char)((temp/2) + '0'));
         }
+        temp = temp%2;
     }
-    for(int i = j;i<A.size();i++)
-    {
-        int numb = carry*10 + (int)(A[i]-'0');
-        ans = ans + to_string(((int)(numb)/2));
-        carry = numb - (((int)(numb/2))*2);
-    }
-    return ans;
+    if(temp != 0) return 0;
+    else return divide(q);
 }
 
-int Solution::power(string A) {
-    int i = 0;
-    while(i < A.size())
-    {
-        if(A[i] == '0') i++;
-        else break;
-    }
-    if(i < A.size()) A = A.substr(i);
-    else return 0;
-    if(A.size() == 0 || A=="0" || A=="1" ) return 0;
-    while(A.size() > 1 || (A.size() == 1 && (int)(A[0]-'0') > 1))
-    {
-        if(((int)(A[A.size()-1])) % 2 == 1) return 0;
-        else A = divide(A);
-    }
-    if(A.size() == 1 && A[0] == '1') return 1;
-    else return 0;
+int Solution::power(string B) {
+    if(B == "" || B=="1") return 0;
+    return divide(B);
 }
 
-//editorial
-// string divide(string s,int &rem)
-// {
-//     int n=s.size(),i;
-//     int carry=0;
-//     string ret="";
-//     for(i=0;i<n;i++){
-//         int k=carry*10+s[i]-'0';
-//         cout<<"k "<<k<<endl;
-//         if(k%2!=0){
-//             carry=1;
-//         }
-//         else{
-//             carry=0;
-//         }
-//         k/=2;
-//         if(ret=="" && k==0){
-//             cout<<"i "<<i<<endl;
-//             continue;
-//         }
-//         ret=ret+(char)(k+'0');
-//     }
-//     rem=carry;
-//     cout<<ret<<endl;
-//     return ret;
-// }
-// int Solution::power(string A) {
-//     if(A=="1")return 0;
-//     while(A!="1"){
-//         //cout<<A<<endl;
-//         int r=0;
-//         A=divide(A,r);
-//         if(r==1)return 0;
-//     }
-//     return 1;
-// }
+//way 2
+//very good method to see if some number if 2^k or not
+//take log2(num) and check if it is an integer
+int Solution::power(string B) {
+    long double A=stold(B);
+    if(A==0|| A==1) return 0;
+    return floor(log2(A))==ceil(log2(A))?1:0;
+}
+
+//good point : to see if fractional part is zero or not (i.e if no is integer or not)
+//use ceil(num) == floor(num)

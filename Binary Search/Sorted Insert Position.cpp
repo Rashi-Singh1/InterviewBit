@@ -1,3 +1,22 @@
+int Solution::searchInsert(vector<int> &A, int B) {
+    if(A.size() < 1) return 0;
+    int start = 0, end = A.size()-1;
+    while(start <= end){
+        int mid = (start + end)/2;
+        if(A[mid] == B) return mid;
+        else if(A[mid] < B){
+            if(mid < A.size()-1 && A[mid+1] >= B) return mid+1;
+            else start = mid +1;
+        }
+        else{
+            if(mid > 0 && A[mid-1] < B) return mid;
+            else end = mid-1; 
+        }
+    }
+    if(B < A[0]) return 0;
+    else return A.size();
+}
+
 int Solution::searchInsert(vector<int> &array, int x) {
   int start = 0;
   int end = array.size()-1;

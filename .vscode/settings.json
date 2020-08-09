@@ -1,6 +1,7 @@
 {
     "files.associations": {
         "*.scala": "scala",
-        "vector": "cpp"
+        "vector": "cpp",
+        "string": "cpp"
     }
 }

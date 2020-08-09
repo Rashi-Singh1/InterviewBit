@@ -1,3 +1,16 @@
+//O(LogN) solution
+typedef long long ll;
+int Solution::pow(int x, int power, int mod) {
+    ll base = (ll)((ll)x+(ll)mod)%mod;
+    if(base == 0) return 0;
+    ll ans = 1;
+    while(power >= 1){
+        if(power & 1) ans = (ans * base)%mod;
+        base = (base * base)%mod;
+        power = power/2;
+    }
+    return (int)ans%mod;
+}
 
 //after reset - brute force O(n) solution
 int Solution::pow(int x, int n, int d) {

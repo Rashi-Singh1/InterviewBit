@@ -1,3 +1,21 @@
+typedef long long ll;
+ll mod = 1000000007;                            //NOTE: using 10e9+7 gave wrong answer for larger test cases
+int Solution::nTriang(vector<int> &A) {
+    sort(A.begin(),A.end());
+    ll ans = 0ll;
+    for(ll i = (ll)A.size()-1ll ; i >= 2ll; i--){
+        ll start = 0, end = i-1ll;
+        while(start < end){
+            ll sum = (ll)A[start] + (ll)A[end];
+            if(sum > (ll)A[i]) {
+                ans = (ans + (ll)((ll)end-(ll)start)%mod)%mod;
+                end--;
+            }
+            else start++;
+        }
+    }
+    return (int)(ans%mod);
+}
 /*Good Question*/
 //after reset
 int Solution::nTriang(vector<int> &A) {

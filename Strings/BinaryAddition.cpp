@@ -1,3 +1,30 @@
+string Solution::addBinary(string A, string B) {
+    reverse(A.begin(),A.end());
+    reverse(B.begin(),B.end());
+    string ans;
+    int i = 0, carry = 0;
+    while(i <A.size() && i < B.size()){
+        int ta = (int)(A[i]-'0'), tb = (int)(B[i++]-'0');
+        int sum = ta+tb+carry;
+        carry = sum/2;
+        ans = (char)((sum%2) + '0') + ans;
+    }
+    while(i < A.size()){
+        int ta = (int)(A[i++]-'0');
+        int sum = ta+carry;
+        carry = sum/2;
+        ans = (char)((sum%2) + '0') + ans;
+    }
+    while(i < B.size()){
+        int tb = (int)(B[i++]-'0');
+        int sum = tb+carry;
+        carry = sum/2;
+        ans = (char)((sum%2) + '0') + ans;
+    }
+    if(carry&1) ans = '1' + ans;
+    return ans;
+}
+
 int fullAdder(int a,int b, int* Cin)
 {
     int carry = *Cin;
