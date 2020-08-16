@@ -6,42 +6,31 @@
  *     ListNode(int x) : val(x), next(NULL) {}
  * };
  */
+typedef long long int ll;
 ListNode* Solution::getIntersectionNode(ListNode* A, ListNode* B) {
-    long long int sizea = 0,sizeb = 0;
-    ListNode * temp = A;
-    while(temp)
-    {
-        sizea++;
-        temp = temp->next;
+    ListNode *ta = A, *tb = B;
+    ll sa = 0, sb = 0;
+    while(ta){
+        sa++;
+        ta = ta->next;
     }
-    temp = B;
-    while(temp)
-    {
-        sizeb++;
-        temp = temp->next;
+    while(tb){
+        sb++;
+        tb = tb->next;
     }
-    ListNode * trash = NULL;
-    long long int size = 0;
-    if(sizea > sizeb)
-    {
-        trash = A;
-        size = sizea-sizeb;
-        temp = B;
-    }else{
-        trash = B;
-        size = sizeb-sizea;
-        temp = A;
+    ta = A; tb = B;
+    while(sa > sb){
+        ta = ta->next;
+        sa--;
     }
-    while(size > 0)
-    {
-        size--;
-        trash = trash->next;
+    while(sb > sa){
+        tb = tb->next;
+        sb--;
     }
-    while(trash && temp)
-    {
-        if(trash == temp) return temp;
-        trash = trash->next;
-        temp = temp->next;
+    while(sa > 0 && tb!=ta){
+        ta = ta->next;
+        tb = tb->next;
+        sa--;
     }
-    return NULL;
+    return ta;
 }

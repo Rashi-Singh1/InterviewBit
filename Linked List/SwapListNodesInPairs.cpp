@@ -7,6 +7,20 @@
  * };
  */
 ListNode* Solution::swapPairs(ListNode* A) {
+    if(A == NULL || A->next == NULL) return A;
+    ListNode *cur = A, *prev = NULL, *nex = cur->next, *head = nex;
+    while(cur){
+        if(nex) cur->next = nex->next;
+        if(nex) nex->next = cur;
+        prev = cur;
+        cur = cur->next;
+        nex = cur == NULL ? NULL : cur->next;
+        prev->next = nex == NULL ? cur : nex;
+    }
+    return head;
+}
+
+ListNode* Solution::swapPairs(ListNode* A) {
     if(!A) return A;
     if(A->next == NULL) return A;
     ListNode * prev = NULL;

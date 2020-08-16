@@ -6,6 +6,32 @@
  *     ListNode(int x) : val(x), next(NULL) {}
  * };
  */
+ListNode* Solution::deleteDuplicates(ListNode* A) {
+    bool mul = false;
+    ListNode *start = A, *prev = NULL;
+    while(A && A->next){
+        if(A->val == A->next->val){
+            mul = true;
+            if(prev) prev->next = A->next;
+            else start = A->next;
+        }else{
+            if(mul){
+                if(prev) prev->next = A->next;
+                else start = A->next;
+                mul = false;
+            }else{
+                prev = A;
+            }
+        }
+        A = A->next;
+    }
+    if(mul){
+        if(prev) prev->next = NULL;
+        else start = NULL;
+    }
+    return start;
+}
+
 
 //Good question dobara dekh liyo
 ListNode* Solution::deleteDuplicates(ListNode* A) {

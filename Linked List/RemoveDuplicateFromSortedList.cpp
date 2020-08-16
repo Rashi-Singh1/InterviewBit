@@ -7,12 +7,10 @@
  * };
  */
 ListNode* Solution::deleteDuplicates(ListNode* A) {
-    if(A == NULL) return A;
-    ListNode * B = A;
-    while(A->next)
-    {
+    ListNode *head = A;
+    while(A && A->next){
         if(A->val == A->next->val) A->next = A->next->next;
         else A = A->next;
     }
-    return B;
+    return head;
 }

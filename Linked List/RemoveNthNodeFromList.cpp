@@ -7,6 +7,24 @@
  * };
  */
 ListNode* Solution::removeNthFromEnd(ListNode* A, int B) {
+    int s = 0;
+    ListNode* copy = A;
+    while(copy){
+        s++;
+        copy = copy->next;
+    }
+    s = s-B;
+    if(s <= 0) return A->next;
+    copy = A;
+    while(s > 1){
+        s--;
+        copy = copy->next;
+    }
+    copy->next = copy->next == NULL? NULL : copy->next->next;
+    return A;
+}
+
+ListNode* Solution::removeNthFromEnd(ListNode* A, int B) {
     ListNode * head = A;
     if(!head || B <=0 ) return head;
     long long int size = 0;

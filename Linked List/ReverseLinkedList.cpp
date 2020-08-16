@@ -7,19 +7,13 @@
  * };
  */
 ListNode* Solution::reverseList(ListNode* A) {
-    if(!A) return A;
-    ListNode * prev = NULL;
-    ListNode * cur = A;
-    ListNode * nex = A->next;
-    ListNode * head = A;
-    while(cur)      //reversing here
-    {
-        nex = cur->next;
+    if(A == NULL) return A;
+    ListNode* cur = A, *next = A->next, *prev = NULL;
+    while(cur){
         cur->next = prev;
         prev = cur;
-        cur = nex;
-        if(nex) nex = nex->next;
-        else head = prev;
+        cur = next;
+        next = cur == NULL ? NULL : cur->next;
     }
-    return head;
+    return prev;
 }

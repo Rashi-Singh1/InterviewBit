@@ -7,34 +7,26 @@
  * };
  */
 ListNode* Solution::rotateRight(ListNode* A, int B) {
-    if(!A || B == 0) return A;
-    long long int size = 0;
-    ListNode* temp = A;
-    while(temp)
-    {
-        size++;
-        temp = temp->next;
+    if(A == NULL || A->next == NULL) return A;
+    int s = 0;
+    ListNode *copy = A, *cur = A, *nex = A->next, *head = NULL; 
+    while(copy){
+        s++;
+        copy = copy->next;
     }
-    B = B%size;  //imp point that i missed earlier
-    size = size-B;
-    if(size == 0) return A; //another imp point
-    temp = A;
-    while(temp)
-    {
-        if(temp->next == NULL)
-        {
-            temp->next = A;
-            break;
-        }
-        temp = temp->next;
+    B%=s;
+    if(B == 0) return A;
+    B = s-B;
+    while(B > 1){
+        cur = cur->next;
+        nex = cur == NULL ? NULL : cur->next;
+        B--;
     }
-    temp = A;
-    while(size > 1)
-    {
-        temp = temp->next;
-        size--;
+    cur->next = NULL;
+    head = nex;
+    while(nex && nex->next){
+        nex = nex->next;
     }
-    A = temp->next;
-    temp->next = NULL;
-    return A;
+    if(nex) nex->next = A;
+    return head;
 }
