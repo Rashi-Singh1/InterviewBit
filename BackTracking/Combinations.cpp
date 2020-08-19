@@ -1,3 +1,25 @@
+void solve(vector<vector<int> >& ans,int k, int A, vector<int>& temp){
+    if(temp.size() == k) {
+        ans.push_back(temp);
+        return;
+    }
+    int start = temp.size() == 0 ? 0 : temp[temp.size()-1];
+    for(int i = start; i < A; i++){
+        temp.push_back(i+1);
+        solve(ans, k,A, temp);
+        temp.pop_back();
+    }
+}
+
+vector<vector<int> > Solution::combine(int A, int k) {
+    vector<vector<int> > ans;
+    vector<int>temp;
+    solve(ans, k, A, temp);
+    return ans;
+}
+
+
+//for intern
 vector<vector<int> > ans;
 
 void solve(int range, int k, int i, vector<int>& temp)

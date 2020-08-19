@@ -1,0 +1,5 @@
+When need to generate temp, such that 
+    1) temp is always sorted(i.e we are only selecting combinations, not the permutations), 
+        then simply use int cur to store the index from vector A to store which index to start populating temp from
+   
+    2) we are selecting all permutations, then use vector<int> count, to store info of what elements used

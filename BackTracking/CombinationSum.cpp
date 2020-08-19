@@ -1,3 +1,32 @@
+typedef long long int ll;
+void solve(vector<vector<int> >& ans, vector<int>& temp, vector<int>& A, ll sum, ll cur, int ind){
+    if(cur == sum){
+        ans.push_back(temp);
+        return;
+    }    
+    if(cur > sum) return;
+    int trash; bool trashval = false;
+    for(int i = ind ; i < A.size(); i++){
+        while(trashval && trash== A[i] && i < A.size()) i++;
+        if(i == A.size()) continue;
+        if(cur + (ll)A[i] > sum) break;
+        temp.push_back(A[i]);
+        solve(ans, temp, A, sum, cur + (ll)A[i], i);
+        temp.pop_back();
+        trashval = true;
+        trash = A[i];
+    }
+}
+
+vector<vector<int> > Solution::combinationSum(vector<int> &A, int B) {
+    vector<vector<int> >ans;
+    vector<int> temp;
+    sort(A.begin(), A.end());
+    solve(ans, temp, A, (ll)B, 0, 0);
+    return ans;
+}
+
+//for intern
 vector<vector<int> >ans;
 
 void print(vector<int>& temp)
