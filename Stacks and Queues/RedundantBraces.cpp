@@ -1,22 +1,21 @@
 int Solution::braces(string A) {
-    stack<char> oper;
-    bool need = false;
-    for(int i = 0;i<A.size();i++)
-    {
-        if(A[i] == '(') need = true;
-        if(A[i] == ')')
-        {
-            if(oper.empty()) return 1;
-            else {
-                if(need == true) return 1;      //using this bcs of cases like (a)
-                else oper.pop();
+    stack<char> s;
+    for(auto x : A){
+        if(x == '(' || x == '+' || x == '-' || x == '*' || x == '/') s.push(x);
+        else if(x == ')'){
+            if(s.empty()) return 1;
+            bool red = true;
+            while(!s.empty() && s.top() != '('){
+                s.pop();
+                red = false;
             }
-            need = false;
+            if(red == true || s.empty()) return 1;
+            else s.pop();
         }
-        else if(A[i] == '+' || A[i] == '*' || A[i] == '-' || A[i] == '/') {
-            if(need == true) need = false;
-            oper.push(A[i]);
-        }
+    }
+    while(!s.empty()){
+        if(s.top() == '(') return 1;
+        s.pop();
     }
     return 0;
 }

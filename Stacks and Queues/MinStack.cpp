@@ -1,37 +1,26 @@
-stack<int> Minimum;
-stack<int> actual;
+stack<int> m, mi;
 
 MinStack::MinStack() {
-    while(!Minimum.empty()) Minimum.pop();
-    while(!actual.empty()) actual.pop();
+    while(!m.empty()) m.pop();
+    while(!mi.empty()) mi.pop();
 }
 
 void MinStack::push(int x) {
-    actual.push(x);
-    if(Minimum.empty()) Minimum.push(x);
-    else{
-        if(Minimum.top() >= x) Minimum.push(x);
-    }
+    m.push(x);
+    if(mi.empty() || mi.top() >= x) mi.push(x);
 }
 
 void MinStack::pop() {
-    if(!Minimum.empty())
-    {
-        if(Minimum.top() == actual.top()) Minimum.pop();
-        actual.pop();
-    }
-    else{
-        if(!actual.empty()) actual.pop();
-    }
+    if(m.empty()) return;
+    int top = m.top();
+    m.pop();
+    if(!mi.empty() && mi.top() == top) mi.pop();
 }
 
 int MinStack::top() {
-    if(!actual.empty()) return actual.top();
-    else return -1;
+    return (m.empty() == true ? -1 : m.top());
 }
 
 int MinStack::getMin() {
-    if(!Minimum.empty()) return Minimum.top();
-    else return -1;
+    return (mi.empty() == true ? -1 : mi.top());
 }
-

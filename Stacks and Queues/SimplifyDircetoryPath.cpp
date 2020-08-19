@@ -1,4 +1,24 @@
 string Solution::simplifyPath(string A) {
+    string ans, temp;
+    vector<string> s;
+    for(int i = 0 ; i < A.size(); i++){
+        if(A[i] == '.'){
+            if(i < A.size()-1 && A[i+1] == '.'){
+                if(s.size() > 0) s.pop_back();
+            }
+        }
+        else if(A[i] == '/'){
+            if(temp != "") s.push_back(temp);
+            temp = "";
+        }
+        else temp.push_back(A[i]);
+    }
+    if(temp != "") s.push_back(temp);
+    for(auto x : s)ans.append('/' + x);
+    return (ans.size() == 0 ? "/" : ans);
+}
+
+string Solution::simplifyPath(string A) {
     int start = 0;
     int end = 0;
     stack<string> sta;

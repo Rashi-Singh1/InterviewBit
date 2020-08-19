@@ -7,6 +7,33 @@
  * };
  */
 ListNode* Solution::insertionSortList(ListNode* A) {
+    ListNode *left = NULL, *right = A, *nex = NULL, *head = NULL;
+    while(right){
+        nex = right->next;
+        right->next = NULL;
+        if(left == NULL) head = left = right;
+        else {
+            if(right->val < head->val) {
+                right->next = head;
+                head = right;
+            }
+            ListNode* prev = NULL;
+            while(left && left!=right && left->val <= right->val){
+                prev = left;
+                left = left->next;
+            }
+            if(prev && prev->next != right){
+                right->next = prev->next;
+                prev->next = right;
+            }
+        }
+        right = nex;
+        left = head;
+    }
+    return head;
+}
+
+ListNode* Solution::insertionSortList(ListNode* A) {
     if(!A) return A;
     ListNode * cur = A;
     ListNode * temp = A->next;

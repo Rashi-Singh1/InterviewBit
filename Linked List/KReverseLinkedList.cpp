@@ -6,60 +6,26 @@
  *     ListNode(int x) : val(x), next(NULL) {}
  * };
  */
-ListNode* Solution::reverseList(ListNode* A, int B) {
-    if(B <= 1) return A;
-    if(!A) return A;
-    if(B == 2)
-    {
-        ListNode * prev = NULL;
-        ListNode * cur = A;
-        ListNode * nex = A->next;
-        ListNode * start = A;
-        while(nex)
-        {
-            cur->next = nex->next; 
-            nex->next = cur; 
-            if(prev) prev->next = nex;
-            else start = nex;
-            prev = cur;
-            cur = cur->next; 
-            if(cur) nex = cur->next; 
-            else nex = NULL;
-        }
-        return start;
-    }
-    ListNode * prev = NULL;
-    ListNode * cur = A;
-    ListNode * nex = A->next;
-    ListNode * start = A;
-    ListNode * end = A;
-    ListNode * head = A;
-    bool setHead = false;
-    int count = B;
-    while(count > 1)
-    {
-        count--;
-        end = end->next;
-    }
-    count = B;
-    while(B > 0 && cur)      //reversing here
-    {
+ListNode* Solution::reverseList(ListNode* A, int k) {
+    if(k < 2) return A;
+    int count = 0;
+    ListNode* prev = NULL, *cur = A, *nex = NULL, *head = NULL, *end = NULL;
+    while(cur){
         nex = cur->next;
-        cur->next = prev;
-        if(end) end = end->next;
-        prev = cur;
-        cur = nex;
-        if(nex) nex = nex->next;
-        if(B == 1) {
-            if(setHead == false) {
-                head = prev; 
-                setHead = true;
-            }
-            B = count+1;
-            start->next = end;
-            start = cur;
+        cur->next = NULL;
+        ListNode* start = cur;
+        while(cur && count < k){
+            cur->next = prev;
+            prev =cur;
+            cur = nex;
+            nex = cur == NULL ? NULL : cur->next;
+            count++;
         }
-        B--;
+        if(end) end->next = prev;
+        end = start;
+        if(head ==  NULL) head = prev;
+        prev = NULL;
+        count = 0;
     }
     return head;
 }

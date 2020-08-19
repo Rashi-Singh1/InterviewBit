@@ -1,55 +1,22 @@
 int Solution::evalRPN(vector<string> &A) {
-    stack<int> numb;
-    int ans = 0;
-    int op1 = 0;
-    int op2 = 0;
-    for(int i = 0;i<A.size();i++)
-    {
-        if(A[i] == "*"){
-            if(!numb.empty()) {
-                op1 = numb.top();
-                numb.pop();
+    stack<int> num;
+    for(auto x : A){
+        if(x == "+" || x == "-" || x == "*" || x == "/"){
+            if(!num.empty()){
+                int a,b;
+                b = num.top();
+                num.pop();
+                if(!num.empty()){
+                    a = num.top();
+                    num.pop();
+                    if(x == "+") num.push(a+b);
+                    else if(x == "-") num.push(a-b);
+                    else if(x == "*") num.push(a*b);
+                    else if(b!=0) num.push(a/b);
+                }
             }
-            if(!numb.empty()) {
-                op2 = numb.top();
-                numb.pop();
-            }
-            numb.push(op2*op1);
-        }else if(A[i] == "/"){
-            if(!numb.empty()) {
-                op1 = numb.top();
-                numb.pop();
-            }
-            if(!numb.empty()) {
-                op2 = numb.top();
-                numb.pop();
-            }
-            numb.push(op2/op1);
-        }
-        else if(A[i] == "-"){
-            if(!numb.empty()) {
-                op1 = numb.top();
-                numb.pop();
-            }
-            if(!numb.empty()) {
-                op2 = numb.top();
-                numb.pop();
-            }
-            numb.push(op2-op1);
-        }
-        else if(A[i] == "+") {
-            if(!numb.empty()) {
-                op1 = numb.top();
-                numb.pop();
-            }
-            if(!numb.empty()) {
-                op2 = numb.top();
-                numb.pop();
-            }
-            numb.push(op2+op1);
-        }
-        else numb.push(stoi(A[i]));
+        }else num.push(stoi(x));
     }
-    if(!numb.empty()) ans = numb.top();
-    return ans;
+    if(!num.empty()) return num.top();
+    return 0;
 }
