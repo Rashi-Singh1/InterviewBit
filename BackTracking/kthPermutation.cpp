@@ -1,48 +1,33 @@
-//naive solution, not time effective
-int trash;
+//normal backtracking sol gave TLE
 string ans;
-vector<bool> sta;
-bool flag;
-void solve(int n, int k, int size)
-{
-    if(size == n){
-        trash--;
-        if(trash == 0) flag = true;
+void solve(string temp, int A, int num, int* cur, vector<int>& count){
+    bool alldone = true;
+    for(auto x : count) if(x > 0) { alldone = false; break;}
+    if(alldone){
+        (*cur)++;
+        if(*cur == num) ans = temp;
         return;
     }
-    for(int i = 0;i<sta.size();i++)
-    {
-        if(sta[i] == false) {
-            sta[i] = true;
-            ans.append(to_string(i+1));
-            solve(n,k,size+1);
-            sta[i] = false;
-            if(flag == true) break;
-            ans.pop_back();
-            if(i>=9) ans.pop_back();
+    if(*cur > num) return;
+    for(int i = 0 ; i < A; i++){
+        if(count[i] > 0){
+            count[i]--;
+            temp.append(to_string(i+1));
+            solve(temp, A, num, cur, count);
+            count[i]++;
+            for(int j = 0 ; j < (int)log10(i+1)+1; j++) temp.pop_back();
         }
-    }
+    }    
 }
 
-string Solution::getPermutation(int n, int k) {
-    if(n == 0 || k == 0) return "";
-    trash = k;
-    sta.clear();
-    for(int i = 0;i<n;i++) sta.push_back(false);
+string Solution::getPermutation(int A, int num) {
     ans = "";
-    int i = 1;
-    flag = false;
-    while(trash)
-    {
-        sta[i-1] = true;
-        ans = to_string(i);
-        solve(n,k,1);
-        sta[i-1] = false;
-        i++;
-    }
+    string temp;
+    int cur = 0;
+    vector<int> count(A,1);
+    solve(temp, A, num, &cur, count);
     return ans;
 }
-
 
 //actual answer like rank of a dictionary
 

@@ -1,34 +1,24 @@
-vector<vector<string> > ans;
-void solve(string A, vector<string>& temp, int i)
-{
-    if(i == A.size()) 
-    {
+void solve(vector<vector<string>>& ans, vector<string> temp, string A){
+    if(A.size() == 0){
         ans.push_back(temp);
         return;
     }
-    string str = "";
-    for(int j = i;j<A.size();j++)
-    {
-        str.push_back(A[j]);
-        string blah = str;
-        reverse(str.begin(),str.end());
-        string trash = blah;
-        blah = str;
-        str = trash;
-        if(str == blah)
-        {
-            temp.push_back(str);
-            solve(A,temp,j+1);
+    string cur, rcur;
+    for(int i = 1 ; i <= A.size(); i++){
+        rcur = cur = A.substr(0,i);
+        reverse(rcur.begin(), rcur.end());
+        if(rcur == cur){
+            temp.push_back(cur);
+            string remain = A.substr(i);
+            solve(ans, temp, remain);
             temp.pop_back();
-        }else continue;
+        }
     }
 }
 
 vector<vector<string> > Solution::partition(string A) {
-    ans.clear();
-    if(A.size() == 0) return ans;
-    string str = "";
+    vector<vector<string> > ans;
     vector<string> temp;
-    solve(A,temp,0);
+    solve(ans, temp, A);
     return ans;
 }

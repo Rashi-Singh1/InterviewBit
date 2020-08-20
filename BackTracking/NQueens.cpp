@@ -1,50 +1,30 @@
-vector<vector<string> >ans;
-
-bool isSafe(int A,int pos, int next,vector<string>& temp)
-{
-    //check diagonals and stuff
-    for(int i = 0;i<next;i++)
-    {
-        if(pos+next-i <A) if(temp[i][pos+next-i] == 'Q') return false;
-        if(i+pos-next <A) if(temp[i][i+pos-next] == 'Q') return false;
-        if(temp[i][pos] == 'Q') return false;
-    }
-    return true;
-}
-
-void solve(int A,int next,vector<string>& temp)
-{
-    if(next == A){
+typedef long long ll;
+void solve(int n, vector<vector<string>>& ans, vector<string>& temp, string col, string ldiag, string rdiag, int x, int count){
+    if(count == n){
         ans.push_back(temp);
         return;
     }
-    string trash;
-    for(int i = 0;i<A;i++) trash.push_back('.');
-    for(int i = 0;i<A;i++)
-    {
-        if(isSafe(A,i,next,temp))
-        {
-            trash[i] = 'Q';
-            temp.push_back(trash);
-            solve(A,next+1,temp);
-            temp.pop_back();
-            trash[i] = '.';
+    if(x >= n) return;
+    for(int y = 0; y < n; y++){
+        int ld = (int)((ll)x+(ll)y), rd = (int)((ll)x-(ll)y + (ll)n - 1ll);
+        if(col[y] > '0' && ldiag[ld] > '0' && rdiag[rd] > '0'){
+            temp[x][y] = 'Q';
+            col[y] = '0';
+            ldiag[ld] = '0';
+            rdiag[rd] = '0';
+            solve(n, ans, temp, col, ldiag, rdiag, x+1, count+1);
+            temp[x][y] = '.';
+            col[y] = '1';
+            ldiag[ld] = '1';
+            rdiag[rd] = '1';
         }
     }
 }
 
-vector<vector<string> > Solution::solveNQueens(int A) {
-    ans.clear();
-    string trash;
-    for(int i = 0;i<A;i++) trash.push_back('.');
-    if(A == 0) return ans;
-    for(int i = 0;i<A;i++)
-    {
-        vector<string> blah;
-        trash[i] = 'Q';
-        blah.push_back(trash);
-        solve(A,1,blah);
-        trash[i] = '.';
-    }
+vector<vector<string> > Solution::solveNQueens(int n) {
+    string col(n,'1'), ldiag((int)(2ll*(ll)n)-1ll, '1'), rdiag((int)(2ll*(ll)n)-1ll, '1'), trash(n,'.');
+    vector<vector<string> > ans;
+    vector<string> temp(n,trash);
+    solve(n, ans, temp, col, ldiag, rdiag, 0, 0);
     return ans;
 }
