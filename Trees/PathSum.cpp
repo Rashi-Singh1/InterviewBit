@@ -7,22 +7,18 @@
  *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
  * };
  */
- 
 int ans;
-void solve(TreeNode* A, long long int parentSum, int B)
-{
-    if(A == NULL) return;
-    if(A->left == NULL && A->right == NULL)
-    {
-        if(parentSum == (long long int)B) ans = 1;
-    }
-    if(A->left) solve(A->left,parentSum+(long long int)A->left->val,B);
-    if(A->right) solve(A->right,parentSum+(long long int)A->right->val,B);
+typedef long long ll;
+void solve(TreeNode*A, ll sum, ll cur){
+    if(A == NULL || ans == 1) return;
+    cur+=(ll)(A->val);
+    if(A->left == NULL && A->right == NULL && sum == cur) {ans = 1; return;}
+    solve(A->left, sum, cur);
+    solve(A->right, sum, cur);
 }
 
 int Solution::hasPathSum(TreeNode* A, int B) {
-    if(A == NULL) return 0;
     ans = 0;
-    solve(A,(long long int)A->val,B);
+    solve(A, (ll)B, 0);
     return ans;
 }

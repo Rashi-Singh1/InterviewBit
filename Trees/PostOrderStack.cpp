@@ -33,6 +33,8 @@ vector<int> Solution::postorderTraversal(TreeNode* A) {
                             {
                                 if(sta.empty()) break;
                                 else{
+                                    //this will allow us to stop popping elements when left subtree for element in sta.top() is done
+                                    //don't need to stop after right subtree, bcs after right subtree, we anyway need to pop the center
                                     if(!sta2.empty() && sta.top()->left == sta2.top()) {
                                         ans.push_back(sta2.top()->val);
                                         sta2.pop();
@@ -71,37 +73,47 @@ vector<int> Solution::postorderTraversal(TreeNode* A) {
 //a much easier answer, do node right and left and the in the end reverse the ans
 vector<int> Solution::postorderTraversal(TreeNode* A) {
     vector<int> ans;
-    if(A == NULL) return ans;
-    stack<TreeNode* > sta;
-    TreeNode* temp = A;
-    do
-    {
-        if(temp)
-        {
-            ans.push_back(temp->val);
-            sta.push(temp);
-            if(temp->right) temp = temp->right;
-            else 
-            {
-                if(!sta.empty())
-                    while(!sta.empty())
-                    {
-                        temp = sta.top();
-                        sta.pop();
-                        if(temp->left) {
-                            temp = temp->left;
-                            break;
-                        }
-                        else temp = NULL;
-                    }
-                else {
-                    reverse(ans.begin(),ans.end());
-                    return ans;
-                }
+    stack<t> s;
+    while(A){
+        s.push(A);
+        ans.push_back(A->val);
+        if(A->right) A = A->right;
+        else{
+            if(s.empty()) return ans;
+            while(!s.empty()){
+                A = s.top()->left;
+                s.pop();
+                if(A) break;
             }
         }
     }
-    while(temp);
-    reverse(ans.begin(),ans.end());
+    reverse(ans.begin(), ans.end());
+    return ans;
+}
+
+//Morris
+typedef TreeNode* t;
+vector<int> Solution::postorderTraversal(TreeNode* A) {
+    vector<int> ans;
+    t cur = A;
+    while(cur){
+        if(cur->right == NULL){
+            ans.push_back(cur->val);
+            cur = cur->left;
+        }else{
+            t prev = cur->right;
+            while(prev->left && prev->left!=cur) prev = prev->left;
+            if(prev->left == NULL) {
+                prev->left = cur;
+                ans.push_back(cur->val);
+                cur = cur->right;
+            }
+            else{
+                prev->left = NULL;
+                cur = cur->left;
+            }
+        }
+    }
+    reverse(ans.begin(), ans.end());
     return ans;
 }

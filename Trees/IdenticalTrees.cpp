@@ -7,31 +7,22 @@
  *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
  * };
  */
- 
 int ans;
-void solve(TreeNode* A, TreeNode* B)
-{
-    if(A == NULL && B == NULL) {
-        return;
+typedef TreeNode* t;
+void solve(t a, t b){
+    if(ans == false) return;
+    if(a == NULL && b == NULL) return;
+    if(a == NULL || b == NULL) ans = 0;
+    else {
+        if(a->val != b->val) {ans = 0; return;}
+        solve(a->left, b->left);
+        solve(a->right, b->right);
     }
-    if(A == NULL || B == NULL)
-    {
-        ans = 0;
-        return;
-    }
-    if(A->val != B->val) {
-        ans = 0;
-        return;
-    }
-    solve(A->left,B->left);
-    solve(A->right, B->right);
 }
 
 int Solution::isSameTree(TreeNode* A, TreeNode* B) {
-    if(A == NULL && B == NULL) return 1;
-    if(A == NULL || B == NULL) return 0;
     ans = 1;
-    solve(A,B);
+    solve(A, B);
     return ans;
 }
 

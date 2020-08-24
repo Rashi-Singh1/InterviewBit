@@ -7,6 +7,22 @@
  *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
  * };
  */
+int ans, num;
+
+void solve(TreeNode* A, int k){
+    if(A == NULL) return;
+    solve(A->left, k);
+    if((++num) == k) ans = A->val;
+    solve(A->right, k);
+}
+
+int Solution::kthsmallest(TreeNode* A, int B) {
+    ans = num = 0;
+    solve(A, B);
+    return ans;
+}
+
+//iterative
 int Solution::kthsmallest(TreeNode* A, int B) {
     int ans = -1;
     if(A == NULL) return ans;

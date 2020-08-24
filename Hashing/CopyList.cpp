@@ -7,26 +7,21 @@
  * };
  */
 RandomListNode* Solution::copyRandomList(RandomListNode* A) {
-    if(!A) return A;
-    RandomListNode* ans;
-    RandomListNode* head;
-    unordered_map<RandomListNode*,RandomListNode*> sta;
-    RandomListNode* temp = A;
-    while(temp)
-    {
-        RandomListNode* cute = new RandomListNode(temp->label);
-        sta.insert(make_pair(temp,cute));
-        temp = temp->next;
+    unordered_map<RandomListNode*, RandomListNode*> s;
+    RandomListNode* cur = A, *head = NULL, *curcopy = NULL;
+    while(cur){
+        if(head == NULL) head = curcopy = new RandomListNode(cur->label);
+        else {
+            curcopy->next = new RandomListNode(cur->label);
+            curcopy = curcopy->next;
+        }
+        s[cur] = curcopy;
+        cur = cur->next;
     }
-    temp = A;
-    ans = sta.find(temp)->second;
-    head = ans;
-    while(temp)
-    {
-        if(temp->next) ans->next = sta.find(temp->next)->second;
-        if(temp->random) ans->random = sta.find(temp->random)->second;
-        ans = ans->next;
-        temp = temp->next;
+    cur = A;
+    while(cur){
+        s[cur]->random = cur->random == NULL ? NULL : s[cur->random];
+        cur = cur->next;
     }
     return head;
 }

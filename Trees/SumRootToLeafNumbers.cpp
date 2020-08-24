@@ -7,25 +7,18 @@
  *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
  * };
  */
-long long int ans;
-long long int mod;
-void solve(TreeNode* A, long long int temp)
-{
+typedef long long int ll;
+ll ans; ll mod;
+void solve(TreeNode*A, ll cur){
     if(A == NULL) return;
-    temp = ((temp*1ll*10)%mod + (long long int)A->val)%mod;
-    if(A->left == NULL && A->right == NULL)
-    {
-        ans = (ans + (temp%mod))%mod;
-        return;
-    }
-    solve(A->left,temp);
-    solve(A->right,temp);
+    cur = ((cur*10ll)%mod + (ll)A->val)%mod;
+    if(A->left == NULL && A->right == NULL) ans = (ans + cur)%mod;
+    solve(A->left, cur);
+    solve(A->right, cur);
 }
 
 int Solution::sumNumbers(TreeNode* A) {
-    ans = 0;
-    if(A == NULL) return ans;
-    mod = (long long int)1003;
-    solve(A,0);
-    return ans%1003;
+    ans = 0; mod = 1003;
+    solve(A, 0);
+    return (int)(ans%mod);
 }
