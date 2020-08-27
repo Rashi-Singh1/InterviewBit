@@ -1,115 +1,66 @@
 struct node{
-    unordered_map<char,node*> sta;
-    bool end;
-    node()
-    {
-        sta.clear();
-        end = false;
-    }
+	unordered_map<char, node*> s;
+	bool end;
+	node(){end = false;}
+	node(char c) {s[c] = NULL; end = false;}
 };
 
-class Trie{
-    private: 
-        node* root;
-    public:
-        Trie()
-        {
-            this->root = NULL;
-        }
-        
-        void insert(string A)
-        {
-            if(this->root == NULL) this->root = new node();
-            node* temp = this->root;
-            for(int i = 0;i<A.size();i++)
-            {
-                if(temp->sta.count(A[i]) == 0) temp->sta[A[i]] = new node();
-                temp = temp->sta[A[i]];
-            }
-            temp->end = true;
-        }
-        
-        bool search(string A)
-        {
-            if(this->root == NULL || A.size() == 0) return false;
-            node* temp = this->root;
-            for(int i = 0;i<A.size();i++)
-            {
-                if(temp == NULL) return false;
-                if(temp->sta.count(A[i]) == 0) return false;
-                temp = temp->sta[A[i]];
-            }
-            if(temp->end == true) return true;
-            else return false;
-        }
+struct trie{
+	node* root;
+	trie(){this->root = NULL;}
+	void insert(string A);
+	int search(string A);
 };
+
+void trie::insert(string A){
+	if(A.size() == 0) return;
+	if(this->root == NULL) this->root = new node();
+	node* cur = this->root;
+	string temp;
+	for(auto x : A){
+	    if(cur->s.count(x) == 0) cur->s[x] = new node();
+	    cur = cur->s[x];
+	}
+	cur->end = true;
+}
+
+int trie::search(string A){
+	if(this->root == NULL) return 0;
+	node* cur = this->root;
+	for(auto x : A){
+	    if(cur == NULL || cur->s.count(x) == 0) return 0;
+	    cur = cur->s[x];
+	}
+	if(cur->end) return 1;
+	else return 0;
+}
 
 vector<int> Solution::solve(string A, vector<string> &B) {
-    vector<int> ans;
-    vector<string> good;
-    string temp;
-    for(int i = 0;i<A.size();i++)
-    {
-        if(A[i] == '_')
-        {
-            if(temp!="") {
-                good.push_back(temp);
+    trie t; vector<int> ans; map<int, vector<int> > m; string temp;
+    for(auto x : A){
+        if(x == '_') {
+            if(temp != "") {
+                t.insert(temp); 
                 temp = "";
             }
         }
-        else temp.push_back(A[i]);
+        else temp.push_back(x);
     }
-   if(temp!="") {
-        good.push_back(temp);
-        temp = "";
-   }
-    // for(auto x : good) cout<<x<<" "; cout<<endl;
-    Trie my;
-    for(int i = 0;i<good.size();i++)
-    {
-        my.insert(good[i]);
-    }
-    map<int, vector<int> > mymap;
-    for(int i = 0;i<B.size();i++)
-    {
-        vector<string> temp;
-        string temp2;
-        for(int j = 0;j<B[i].size();j++)
-        {
-            if(B[i][j] == '_')
-            {
-                if(temp2!="") {
-                    temp.push_back(temp2);
-                    temp2 = "";
+    if(temp != "") {t.insert(temp); temp = "";}
+    for(int i = 0 ;i < B.size(); i++){
+        int count = 0;
+        for(auto x : B[i]){
+            if(x == '_') {
+                if(temp != "") {
+                    count+=t.search(temp); 
+                    temp = "";
                 }
             }
-            else temp2.push_back(B[i][j]);
+            else temp.push_back(x);
         }
-        if(temp2!="") {
-            temp.push_back(temp2);
-            temp2 = "";
-        }
-        // for(auto x : temp) cout<<x<<" "; cout<<endl;
-        int count = 0;
-        for(int j = 0;j<temp.size();j++)
-        {
-            if(temp[j]!="" && my.search(temp[j])){
-                count++;
-            }
-        }
-        mymap[count].push_back(i);
-        // cout<<i<<" "<<count<<endl;
+        if(temp != "") {count+=t.search(temp); temp = "";}
+        m[count].push_back(i);
     }
-    while(mymap.size() > 0)
-    {
-        auto y = mymap.rbegin()->second;
-        for(int i = 0;i<y.size();i++)
-        {
-            ans.push_back(y[i]);
-        }
-        mymap.erase(mymap.rbegin()->first);
-    }
+    for(auto x = m.rbegin(); x != m.rend(); x++) for(auto y : x->second) ans.push_back(y);
     return ans;
 }
-
-

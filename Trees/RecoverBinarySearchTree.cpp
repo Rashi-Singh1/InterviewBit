@@ -7,81 +7,35 @@
  *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
  * };
  */
+typedef TreeNode* t;
 vector<int> Solution::recoverTree(TreeNode* A) {
-    vector<int> ans;
-   if(A == NULL) return ans;
-   TreeNode* first = NULL; TreeNode* second = NULL;
-   TreeNode* val1 = NULL; TreeNode* val2 = NULL;
-   TreeNode* cur = A;
-   while(cur)
-   {
-       if(cur->left == NULL)
-       {
-           if(val1 == NULL) val1 = cur;
-           else {
-               if(val2 == NULL) val2 = cur;
-               else {
-                   val1 = val2;
-                   val2 = cur;
-               }
-               if(val1->val > val2->val)
-               {
-                   if(first == NULL)
-                   {
-                       first = val1;
-                       second = val2;
-                   }
-                   else{
-                       second = val2;
-                   }
-               }
-           }
-           cur = cur->right;
-       }
-       else{
-           TreeNode* pred = cur->left;
-           while(pred->right && pred->right!=cur)
-           {
-               pred = pred->right;
-           }
-           if(pred->right == NULL)
-           {
-               pred->right = cur;
-               cur = cur->left;
-           }
-           else{
-               pred->right = NULL;
-               if(val1 == NULL) val1 = cur;
-               else {
-                   if(val2 == NULL) val2 = cur;
-                   else {
-                       val1 = val2;
-                       val2 = cur;
-                   }
-                   if(val1->val > val2->val)
-                   {
-                       if(val1->val > val2->val)
-                       {
-                           if(first == NULL)
-                           {
-                               first = val1;
-                               second = val2;
-                           }
-                           else{
-                               second = val2;
-                           }
-                       }
-                   }
-               }
-               cur = cur->right;
-           }
-       }
-   }
-   if(first!= NULL)
-   {
-       ans.push_back(first->val);
-       ans.push_back(second->val);
-   }
-   sort(ans.begin(),ans.end());
-   return ans;
+    int trash = INT_MIN, first = -1, last = -1; bool firstFound = false;
+    t prev = NULL; t cur = A;
+    while(cur){
+        if(cur->left == NULL){
+            if(trash != INT_MIN && trash > cur->val) {
+                if(firstFound) last = cur->val;
+                else {first = trash; last = cur->val; firstFound = true;}
+            }
+            trash = cur->val;
+            cur = cur->right;
+        }else{
+            prev = cur->left;
+            while(prev->right && prev->right!= cur) prev = prev->right;
+            if(prev->right == NULL) {                   //this part occurs before covering left subtree
+                prev->right = cur;
+                cur = cur->left;
+            }
+            else {
+                prev->right = NULL;                     //this part occurs after left subtree, therefore for inorder, root value pushed after left subtree
+                if(trash != INT_MIN && trash > cur->val) {
+                    if(firstFound) last = cur->val;
+                    else {first = trash; last = cur->val; firstFound = true;}
+                }
+                trash = cur->val;
+                cur = cur->right;
+            }
+        }
+    }
+    return {last,first};
 }

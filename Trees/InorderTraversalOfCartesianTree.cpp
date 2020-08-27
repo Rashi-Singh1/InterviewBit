@@ -7,24 +7,18 @@
  *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
  * };
  */
- 
-//naive solution
-TreeNode* solve(vector<int>&A, int start, int end)
-{
-    if(end < start) return NULL;
-    int val = start;
-    for(int i = start+1;i<=end;i++)
-    {
-        if(A[val] < A[i]) val = i;
+TreeNode* solve(vector<int>& A, int start, int end){
+    if(start <= end){
+        int index = start;
+        for(int i = start+1; i <= end; i++) if(A[index] < A[i]) index = i;
+        TreeNode* root = new TreeNode(A[index]);
+        root->left = solve(A, start, index-1);
+        root->right = solve(A, index+1, end);
+        return root;
     }
-    TreeNode* root = new TreeNode(A[val]);
-    root->left = solve(A, start,val-1);
-    root->right = solve(A,val+1,end);
-    return root;
+    return NULL;
 }
 
 TreeNode* Solution::buildTree(vector<int> &A) {
-    if(A.size() == 0) return NULL;
-    TreeNode* root = solve(A,0,A.size()-1);
-    return root;
+    return solve(A, 0, (int)A.size()-1);
 }

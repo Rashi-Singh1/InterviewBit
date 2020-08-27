@@ -7,32 +7,23 @@
  *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
  * };
  */
- 
-int cur;
-TreeNode* solve(vector<int>& pre, vector<int>& in,int start, int end)
-{
-    if(cur>= pre.size()) return NULL;
-    TreeNode* root = new TreeNode(pre[cur]);
-    for(int i = start;i<=end;i++)
-    {
-        if(in[i] == root->val)
-        {
-            if(i>start) {
-                ++cur;
-                root->left = solve(pre,in,start,i-1);
-            }
-            if(i<end) {
-                ++cur;
-                root->right = solve(pre,in,i+1,end);
-            }
+int preIndex;
+TreeNode* solve(vector<int> &pre, vector<int> &in, int start, int end){
+    if(start <= end && preIndex < pre.size()){
+        int ind = start;
+        for(ind = start; ind <= end; ind++){
+            if(in[ind] == pre[preIndex]) break;
         }
+        preIndex++;
+        TreeNode* root = new TreeNode(in[ind]);
+        root->left = solve(pre, in, start, ind-1);
+        root->right = solve(pre, in, ind+1, end);
+        return root;
     }
-    return root;
+    else return NULL;
 }
 
 TreeNode* Solution::buildTree(vector<int> &pre, vector<int> &in) {
-    if(pre.size() == 0) return NULL;
-    cur = 0;
-    TreeNode* root = solve(pre,in,0,pre.size()-1);
-    return root;
+    preIndex = 0;
+    return solve(pre, in, 0, in.size()-1);
 }
