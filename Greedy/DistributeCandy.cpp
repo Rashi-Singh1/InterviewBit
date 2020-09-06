@@ -1,4 +1,14 @@
 int Solution::candy(vector<int> &A) {
+    vector<int> count(A.size(),1);
+    for(int i = 0 ; i < A.size()-1; i++) if(A[i] < A[i+1]) count[i+1] = count[i]+1;
+    for(int i = A.size()-1; i > 0; i--) if(A[i] < A[i-1]) count[i-1] = max(count[i-1], count[i]+1);
+    int ans = 0;
+    for(auto x : count) ans+=x;
+    return ans;
+}
+
+//way 2: 
+int Solution::candy(vector<int> &A) {
     if(A.size() == 0) return 0;
     map<int,vector<int> > sta;
     for(int i = 0;i<A.size();i++)

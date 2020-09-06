@@ -1,18 +1,35 @@
+//priority_queue solution
+typedef long long ll;
+ll mod = (ll)pow(10,9)+7ll;
 int Solution::nchoc(int A, vector<int> &B) {
-    long long int Mod = 1000000007;
-    long long int ans = 0;
-    map<int, int > myMap;
-    for(int i = 0;i<B.size();i++)
-    {
-        myMap[B[i]]++;
+    if(B.size() == 0) return 0;
+    priority_queue<int> s(B.begin(), B.end());
+    ll ans = 0ll;
+    while(A){
+        ll key = (ll)s.top();
+        ans = (ans + key)%mod;
+        s.pop();
+        s.push((int)(key/2));
+        A--;
     }
-    for(int i = 0;i<A;i++)
-    {
-        int val = myMap.rbegin()->first;
-        ans = (( (long long int)val)%Mod + ans)%Mod;
-        if(myMap.rbegin()->second > 1) (myMap.rbegin()->second)--;
-        else myMap.erase(val);
-        myMap[(int)val/2]++;
+    return (int)(ans%mod);
+}
+
+//giving TLE for map..........nannndddeeee
+typedef long long ll;
+ll mod = (ll)pow(10,9)+7ll;
+int Solution::nchoc(int A, vector<int> &B) {
+    if(B.size() == 0) return 0;
+    map<int,int> s;
+    for(auto x : B) s[x]++;
+    ll ans = 0ll;
+    while(A && s.size() > 0){
+        ll key = (ll)s.rbegin()->first;
+        ans = (ans + key)%mod;
+        if(s[key] < 2) s.erase(key);
+        else s[key]--;
+        if(key > 1) s[(int)(key/2)]++;
+        A--;
     }
-    return (int)(ans%Mod);
+    return (int)(ans%mod);
 }

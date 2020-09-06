@@ -1,3 +1,58 @@
+typedef long long ll; 
+int Solution::maxp3(vector<int> &A) {
+    if(A.size() < 3) return 0;
+    sort(A.begin(), A.end());
+    ll ans = 0, ans2 = 0, n = A.size();
+    ans = (ll)A[n-1]*(ll)A[n-2]*(ll)A[n-3];
+    ans2 = (ll)A[0]*(ll)A[1]*(ll)A[n-1]; 
+    return (int)max(ans, ans2);
+}
+
+typedef long long ll;
+int Solution::maxp3(vector<int> &A) {
+    if(A.size() < 3) return 0;
+    priority_queue<ll> pos, neg;
+    priority_queue<ll, vector<ll>, greater<ll> > negneg, pospos;
+    for(auto x : A) {
+        if(x < 0) {neg.push(llabs((ll)x)); negneg.push(llabs((ll)x));}
+        else {pos.push((ll)x); pospos.push((ll)x);}
+    }
+    bool negi = ((pos.size() == 2 && neg.size() < 2) || pos.size() == 0);     
+    if(negi){
+        ll ans2, ans; ans2 = ans = negneg.top(); negneg.pop();
+        bool allneg = false;
+        if(negneg.size() > 1) {
+            ans *= negneg.top(); negneg.pop();
+            ans *= negneg.top(); negneg.pop();
+            allneg = true;
+        }
+        if(pospos.size() > 1){
+            ans2 *= pospos.top(); pospos.pop();
+            ans2 *= pospos.top(); pospos.pop(); 
+            if(allneg) return (int)max(-1ll*ans, -1ll*ans2);
+            return (int)-1ll*ans2;
+        }
+        return (int)-1ll*ans;
+    }
+    else{
+        ll ans2, ans; ans2 = ans = pos.top(); pos.pop();
+        bool allneg = false;
+        if(neg.size() > 1) {
+            ans *= neg.top(); neg.pop();
+            ans *= neg.top(); neg.pop();
+            allneg = true;
+        }
+        if(pos.size() > 1){
+            ans2 *= pos.top(); pos.pop();
+            ans2 *= pos.top(); pos.pop(); 
+            if(allneg) return max(ans, ans2);
+            return ans2;
+        }
+        return (int)ans;
+    }
+    return 0;
+}
+
 //dont miss side conditions like -ve numbers, occurence of 2 neg numbers with +ve large product
 int Solution::maxp3(vector<int> &A) {
     map<int, int> sta;

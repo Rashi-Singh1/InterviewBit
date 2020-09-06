@@ -10,3 +10,14 @@ int Solution::bulbs(vector<int> &A) {
     }
     return count;
 }
+
+//better solution
+int Solution::bulbs(vector<int> &A) {
+    int zero = 1;
+    int ans = 0;
+    for(auto x : A){
+        if(zero && x == 0) {ans++; zero = !zero;}
+        else if(!zero && x == 1) {ans++; zero = !zero;}
+    }
+    return ans;
+}
