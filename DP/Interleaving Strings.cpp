@@ -1,4 +1,3 @@
-
 int Solution::isInterleave(string A, string B, string C) {
     if(A.size() == 0) return (B == C ? 1 : 0);
     if(B.size() == 0) return (A == C ? 1 : 0);
